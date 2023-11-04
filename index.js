@@ -40,20 +40,52 @@
 //Q.9
 //Answer:
 
-const http = require("http");
+// const http = require("http");
+// const express = require("express");
+// const app = express();
+
+// app.use((req, res, next) => {
+//   console.log("First middleware");
+//   next();
+// });
+
+// app.use((req, res, next) => {
+//   console.log("Second middleware");
+//   res.send("<h1>Hello from Express Server</h1>");
+// });
+
+// app.listen(4000, () => {
+//   console.log("Server is running on port 4000");
+// });
+
+//Question No.2
+
 const express = require("express");
 const app = express();
 
-app.use((req, res, next) => {
-  console.log("First middleware");
-  next();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/add-product", (req, res, next) => {
+  res.send(
+    '<form action="/product" method="POST"><label for="product">Enter Product Name</label><input type="text" name="product"><label for="size">Enter Product Size</label><input type="text"  name="size"><button type="submit">add product</button></button></form>'
+  );
 });
 
-app.use((req, res, next) => {
-  console.log("Second middleware");
-  res.send("<h1>Hello from Express Server</h1>");
+app.use("/product", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
 });
 
+app.use("/", (req, res) => {
+  res.send("hello from express");
+});
 app.listen(4000, () => {
   console.log("Server is running on port 4000");
 });
+
+// What is the body parser used for?
+
+//Answer : body parser is used to read a request body.
+//extract the request data.
